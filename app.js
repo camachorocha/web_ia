@@ -153,6 +153,11 @@ grid.addEventListener('click', (event) => {
   }
 });
 
+/* En cuanto el usuario empieza a escribir, cambia a la vista de conversación. */
+input.addEventListener('input', () => {
+  if (input.value.trim()) startChatLayout();
+});
+
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   askM1(input.value);
