@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="M1 Garrage — encuentra tu próximo auto con M1 IA." />
+    <title>M1 Garrage | Autos que mueven tu historia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="M1 Garrage inicio"><span class="brand-mark"><b>M1</b><i>GARAGE</i></span><span class="brand-name">M1 <em>GARRAGE</em></span></a>
+      <nav aria-label="Navegación principal"><a href="#inventario">Inventario</a><a href="#como-funciona">Cómo funciona</a><a href="#nosotros">Nosotros</a></nav>
+      <button class="header-cta" type="button" data-open-ai>Habla con M1 IA <span>↗</span></button>
+    </header>
+
+    <main id="inicio">
+      <section class="hero-stage" aria-label="Portada de M1 Garrage">
+        <div class="hero-car-wrap">
+          <img class="hero-car" src="https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=1500&q=85" alt="BMW M4 Competition negro" />
+          <div class="hero-gradient"></div>
+          <div class="hero-car-label"><span>BMW M4 COMPETITION</span><b>2023</b></div>
+          <div class="speed-line line-one"></div><div class="speed-line line-two"></div>
+        </div>
+        <div class="hero-panel">
+          <p class="eyebrow"><span></span> EL FUTURO DE COMPRAR UN AUTO</p>
+          <h1>EL AUTO CORRECTO.<br /><i>LA DECISIÓN SEGURA.</i></h1>
+          <p class="intro">Una forma más inteligente de encontrar tu próximo auto. Historial claro, recomendaciones reales y una IA que sabe de motores.</p>
+          <div class="hero-actions"><a class="button primary" href="#inventario">Explorar inventario <span>→</span></a><button class="text-link" type="button" data-open-ai>Conoce a M1 IA <span>↓</span></button></div>
+          <div class="stats"><div><strong>1,250<span>+</span></strong><small>autos verificados</small></div><div><strong>4.9<span>/5</span></strong><small>confianza de clientes</small></div><div><strong>48<span>h</span></strong><small>respuesta promedio</small></div></div>
+        </div>
+        <div class="hero-index"><span>01</span><i></i><span>04</span></div>
+
+        <section id="ia" class="ai-screen" aria-label="M1 IA" aria-hidden="true">
+          <div class="ai-overlay"></div>
+          <div class="ai-panel">
+            <button class="back-button" type="button" data-close-ai>← Volver</button>
+            <p class="eyebrow ai-eyebrow"><span></span> TU EXPERTO PERSONAL</p>
+            <h2>M1 <i>IA.</i></h2>
+            <p class="ai-intro">Soy M1 IA. Pregúntame sobre vehículos, precios, kilometraje, características y opciones.</p>
+            <form id="aiForm" class="prompt-box">
+              <label class="sr-only" for="questionInput">Pregunta a M1 IA</label>
+              <span class="spark" aria-hidden="true">✦</span>
+              <input id="questionInput" name="message" autocomplete="off" placeholder="Pregúntame sobre cualquier auto..." required />
+              <button id="askButton" type="submit">Enviar <span>↑</span></button>
+            </form>
+            <div class="quick-prompts" aria-label="Preguntas sugeridas"><button type="button">¿Qué SUV me recomiendas?</button><button type="button">¿Cuál tiene menos kilometraje?</button><button type="button">¿Qué puedo comprar por $25.000?</button></div>
+            <div id="aiReply" class="ai-reply" aria-live="polite">Estoy lista para ayudarte a encontrar tu próximo auto.</div>
+          </div>
+        </section>
+      </section>
+
+      <section id="inventario" class="inventory">
+        <div class="section-head"><div><p class="eyebrow"><span></span> SELECCIÓN M1</p><h2>ENCUENTRA TU <i>RITMO.</i></h2></div><a href="#inventario" class="view-all">Ver todo el inventario <span>→</span></a></div>
+        <p class="inventory-note">Selección de demostración. La disponibilidad final se confirmará con M1 Garrage.</p>
+        <div class="budget-tabs" role="tablist" aria-label="Filtrar por presupuesto"><button class="active" data-budget="todos" type="button">Todos</button><button data-budget="menos20" type="button">Menos de $20K</button><button data-budget="20a35" type="button">$20K – $35K</button><button data-budget="mas35" type="button">Más de $35K</button></div>
+        <div id="carGrid" class="car-grid"></div>
+      </section>
+      <section id="como-funciona" class="process"><p class="eyebrow red"><span></span> SIMPLE Y TRANSPARENTE</p><h2>COMPRA CON <i>CONFIANZA.</i></h2><div class="steps"><article><b>01</b><span>◎</span><h3>Explora</h3><p>Encuentra autos seleccionados para tu estilo de vida y presupuesto.</p></article><article><b>02</b><span>✦</span><h3>Pregunta</h3><p>Conversa con M1 IA. Datos claros, respuestas directas.</p></article><article><b>03</b><span>↗</span><h3>Conduce</h3><p>Agenda tu prueba y toma el volante con total seguridad.</p></article></div></section>
+    </main>
+    <footer id="nosotros"><div class="brand-name">M1 <em>GARRAGE</em></div><p>Autos que mueven tu historia.</p><small>© 2024 M1 Garrage. Todos los derechos reservados.</small></footer>
+    <script src="config.js"></script><script src="app.js"></script>
+  </body>
+</html>

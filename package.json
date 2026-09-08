@@ -1,0 +1,9 @@
+{
+  "name": "m1-garrage",
+  "version": "1.0.0",
+  "private": true,
+  "description": "M1 Garrage frontend and secure Vercel chat API",
+  "engines": { "node": ">=18" },
+  "scripts": { "start": "vercel dev", "test": "node --test" },
+  "devDependencies": { "vercel": "^39.1.0" }
+}
