@@ -1,0 +1,24 @@
+/* Corrección del botón de cierre de M1 IA */
+.ai-close {
+  color: #fff !important;
+  background: #151517 !important;
+  border-color: #ffffff55 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.ai-close:hover,
+.ai-close:focus-visible {
+  color: #fff !important;
+  background: #151517 !important;
+  border-color: #fff !important;
+  outline: 2px solid #ffffff55;
+  outline-offset: 2px;
+}
+
+.ai-screen.is-closed {
+  display: none !important;
+  pointer-events: none !important;
+}
