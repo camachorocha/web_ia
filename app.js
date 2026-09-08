@@ -1,10 +1,10 @@
 const demoCars = [
-  { name: 'Mazda CX-5', year: '2021', km: '42,180 km', price: 19800, owners: 1, type: 'menos20', image: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=900&q=80' },
-  { name: 'Toyota GR86', year: '2022', km: '18,940 km', price: 28900, owners: 1, type: '20a35', image: 'https://vexstockimages.fastly.carvana.io/stockimages/2022_TOYOTA_GR86_PREMIUM%20COUPE%202D_BLACK_stock_mobile_640x640.png?v=1655430521.122' },
-  { name: 'Audi RS 5', year: '2023', km: '9,120 km', price: 58900, owners: 1, type: 'mas35', image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=80' },
-  { name: 'Honda Civic Sport', year: '2020', km: '51,400 km', price: 18400, owners: 2, type: 'menos20', image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=900&q=80' },
-  { name: 'Ford Bronco', year: '2022', km: '31,050 km', price: 34700, owners: 1, type: '20a35', image: 'https://images.unsplash.com/photo-1631088994000-049a56d58e44?auto=format&fit=crop&w=900&q=80' },
-  { name: 'Porsche 718 Cayman', year: '2021', km: '22,300 km', price: 64900, owners: 1, type: 'mas35', image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80' }
+  { name: 'Mazda CX-5', year: '2021', km: '42,180 km', price: 19800, owners: 1, type: 'menos20', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/2021%20Mazda%20CX-5%20Sport%20Black%20Auto.jpg' },
+  { name: 'Toyota GR86', year: '2022', km: '18,940 km', price: 28900, owners: 1, type: '20a35', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/2022%20Toyota%20GR86%201.jpg' },
+  { name: 'Audi RS 5', year: '2023', km: '9,120 km', price: 58900, owners: 1, type: 'mas35', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Audi%20RS%205%20Sportback%20%282022%29%20%2852456222915%29.jpg' },
+  { name: 'Honda Civic Sport', year: '2020', km: '51,400 km', price: 18400, owners: 2, type: 'menos20', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/2020%20Honda%20Civic%201.5%20TC%2001.jpg' },
+  { name: 'Ford Bronco', year: '2022', km: '31,050 km', price: 34700, owners: 1, type: '20a35', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/2022%20Ford%20Bronco.jpg' },
+  { name: 'Porsche 718 Cayman', year: '2021', km: '22,300 km', price: 64900, owners: 1, type: 'mas35', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/2021%20Porsche%20718%20Cayman%20GT4%20FOS21.jpg' }
 ];
 
 const grid = document.querySelector('#carGrid');
