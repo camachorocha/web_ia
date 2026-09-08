@@ -1,6 +1,6 @@
 const demoCars = [
   { name: 'Mazda CX-5', year: '2021', km: '42,180 km', price: 19800, owners: 1, type: 'menos20', image: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=900&q=80' },
-  { name: 'Toyota GR86', year: '2022', km: '18,940 km', price: 28900, owners: 1, type: '20a35', image: 'https://images.unsplash.com/photo-1584345604329-be647b5279f4?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Toyota GR86', year: '2022', km: '18,940 km', price: 28900, owners: 1, type: '20a35', image: 'https://vexstockimages.fastly.carvana.io/stockimages/2022_TOYOTA_GR86_PREMIUM%20COUPE%202D_BLACK_stock_mobile_640x640.png?v=1655430521.122' },
   { name: 'Audi RS 5', year: '2023', km: '9,120 km', price: 58900, owners: 1, type: 'mas35', image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=80' },
   { name: 'Honda Civic Sport', year: '2020', km: '51,400 km', price: 18400, owners: 2, type: 'menos20', image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=900&q=80' },
   { name: 'Ford Bronco', year: '2022', km: '31,050 km', price: 34700, owners: 1, type: '20a35', image: 'https://images.unsplash.com/photo-1631088994000-049a56d58e44?auto=format&fit=crop&w=900&q=80' },
@@ -26,7 +26,7 @@ function renderCars(filter = 'todos') {
   grid.innerHTML = visibleCars.map((car) => `
     <article class="car-card">
       <div class="car-image">
-        <img src="${car.image}" alt="${car.name}" />
+        <img src="${car.image}" alt="${car.name}" loading="lazy" />
         <span class="tag">DEMO M1</span>
       </div>
       <div class="car-details">
