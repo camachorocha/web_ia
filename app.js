@@ -43,6 +43,7 @@ function renderCars(filter = 'todos') {
 
 function setAiOpen(isOpen) {
   stage.classList.toggle('ai-open', isOpen);
+  aiScreen.classList.toggle('is-closed', !isOpen);
   aiScreen.setAttribute('aria-hidden', String(!isOpen));
   if (isOpen) window.setTimeout(() => input.focus(), 150);
 }
@@ -130,7 +131,11 @@ document.querySelectorAll('[data-open-ai]').forEach((button) => {
 });
 
 document.querySelectorAll('[data-close-ai]').forEach((button) => {
-  button.addEventListener('click', () => setAiOpen(false));
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setAiOpen(false);
+  });
 });
 
 document.querySelectorAll('.budget-tabs button').forEach((button) => {
@@ -153,7 +158,6 @@ grid.addEventListener('click', (event) => {
   }
 });
 
-/* En cuanto el usuario empieza a escribir, cambia a la vista de conversación. */
 input.addEventListener('input', () => {
   if (input.value.trim()) startChatLayout();
 });
