@@ -20,7 +20,9 @@ module.exports = async function handler(request, response) {
   }
 
   if (request.method !== 'POST') {
-    return response.status(405).json({ error: 'Method not allowed' });
+    return response.status(405).json({
+      error: 'Method not allowed'
+    });
   }
 
   const message =
@@ -29,16 +31,20 @@ module.exports = async function handler(request, response) {
       : '';
 
   if (!message) {
-    return response.status(400).json({ error: 'Message is required' });
+    return response.status(400).json({
+      error: 'Message is required'
+    });
   }
 
   if (!process.env.GEMINI_API_KEY) {
-    return response.status(500).json({ error: 'Service unavailable' });
+    return response.status(500).json({
+      error: 'GEMINI_API_KEY is not configured'
+    });
   }
 
   try {
     const geminiResponse = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/interactions',
       {
         method: 'POST',
         headers: {
@@ -46,23 +52,10 @@ module.exports = async function handler(request, response) {
           'x-goog-api-key': process.env.GEMINI_API_KEY
         },
         body: JSON.stringify({
-          systemInstruction: {
-            parts: [
-              {
-                text: 'Eres M1 IA, la asesora premium de M1 Garrage. Responde siempre en español, de forma amable, concisa y útil. No inventes vehículos disponibles ni afirmes que los autos de demostración están a la venta. Para disponibilidad, indica que debe confirmarse con M1 Garrage.'
-              }
-            ]
-          },
-          contents: [
-            {
-              role: 'user',
-              parts: [
-                {
-                  text: message
-                }
-              ]
-            }
-          ]
+          model: 'gemini-3.6-flash',
+          input: message,
+          system_instruction:
+            'Eres M1 IA, la asesora premium de M1 Garrage. Responde siempre en español, de forma amable, concisa y útil. No inventes vehículos disponibles ni afirmes que los autos de demostración están a la venta. Para disponibilidad, indica que debe confirmarse con M1 Garrage.'
         })
       }
     );
@@ -84,10 +77,12 @@ module.exports = async function handler(request, response) {
     const result = await geminiResponse.json();
 
     const reply =
-      result.candidates?.[0]?.content?.parts
-        ?.map((part) => part.text || '')
-        .join('')
-        .trim();
+      result.output
+        ?.filter((item) => item.type === 'text')
+        ?.map((item) => item.text || '')
+        ?.join('')
+        ?.trim() ||
+      result.output_text?.trim();
 
     if (!reply) {
       console.error(
@@ -96,11 +91,14 @@ module.exports = async function handler(request, response) {
       );
 
       return response.status(502).json({
-        error: 'Empty response'
+        error: 'Gemini returned an empty response'
       });
     }
 
-    return response.status(200).json({ reply });
+    return response.status(200).json({
+      reply
+    });
+
   } catch (error) {
     console.error(
       'Gemini request failed:',
