@@ -56,7 +56,11 @@ module.exports = async function handler(request, response) {
           contents: [
             {
               role: 'user',
-              parts: [{ text: message }]
+              parts: [
+                {
+                  text: message
+                }
+              ]
             }
           ]
         })
@@ -65,10 +69,15 @@ module.exports = async function handler(request, response) {
 
     if (!geminiResponse.ok) {
       const errorText = await geminiResponse.text();
-      console.error('Gemini API error:', geminiResponse.status, errorText);
+
+      console.error(
+        'Gemini API error:',
+        geminiResponse.status,
+        errorText
+      );
 
       return response.status(502).json({
-        error: 'Unable to process request'
+        error: `Gemini API error ${geminiResponse.status}`
       });
     }
 
@@ -81,7 +90,10 @@ module.exports = async function handler(request, response) {
         .trim();
 
     if (!reply) {
-      console.error('Gemini returned an empty response:', result);
+      console.error(
+        'Gemini returned an empty response:',
+        result
+      );
 
       return response.status(502).json({
         error: 'Empty response'
@@ -90,7 +102,10 @@ module.exports = async function handler(request, response) {
 
     return response.status(200).json({ reply });
   } catch (error) {
-    console.error('Gemini request failed:', error);
+    console.error(
+      'Gemini request failed:',
+      error
+    );
 
     return response.status(502).json({
       error: 'Unable to process request'
