@@ -37,6 +37,8 @@ module.exports = async function handler(request, response) {
   }
 
   if (!process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY is not configured');
+
     return response.status(500).json({
       error: 'GEMINI_API_KEY is not configured'
     });
@@ -60,34 +62,45 @@ module.exports = async function handler(request, response) {
       }
     );
 
+    const responseText = await geminiResponse.text();
+
+    console.log('Gemini status:', geminiResponse.status);
+    console.log('Gemini response:', responseText);
+
     if (!geminiResponse.ok) {
-      const errorText = await geminiResponse.text();
-
-      console.error(
-        'Gemini API error:',
-        geminiResponse.status,
-        errorText
-      );
-
       return response.status(502).json({
-        error: `Gemini API error ${geminiResponse.status}`
+        error: `Gemini API error ${geminiResponse.status}`,
+        details: responseText
       });
     }
 
-    const result = await geminiResponse.json();
+    let result;
+
+    try {
+      result = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Invalid Gemini JSON:', responseText);
+
+      return response.status(502).json({
+        error: 'Invalid response from Gemini'
+      });
+    }
 
     const reply =
-      result.output
-        ?.filter((item) => item.type === 'text')
-        ?.map((item) => item.text || '')
+      result.steps
+        ?.filter((step) => step.type === 'model_output')
+        ?.flatMap((step) => step.content || [])
+        ?.filter((content) => content.type === 'text')
+        ?.map((content) => content.text || '')
         ?.join('')
         ?.trim() ||
-      result.output_text?.trim();
+      result.output_text?.trim() ||
+      '';
 
     if (!reply) {
       console.error(
-        'Gemini returned an empty response:',
-        result
+        'Gemini returned no text:',
+        JSON.stringify(result)
       );
 
       return response.status(502).json({
@@ -100,10 +113,7 @@ module.exports = async function handler(request, response) {
     });
 
   } catch (error) {
-    console.error(
-      'Gemini request failed:',
-      error
-    );
+    console.error('Gemini request failed:', error);
 
     return response.status(502).json({
       error: 'Unable to process request'
