@@ -17,13 +17,36 @@ const reply = document.querySelector('#aiReply');
 let isRequestPending = false;
 
 function renderCars(filter = 'todos') {
-  const visibleCars = filter === 'todos' ? demoCars.slice(0, 3) : demoCars.filter((car) => car.type === filter);
-  grid.innerHTML = visibleCars.map((car) => `<article class="car-card"><div class="car-image"><img src="${car.image}" alt="${car.name}" /><span class="tag">DEMO M1</span></div><div class="car-details"><h3>${car.name}</h3><p>${car.year} &nbsp;•&nbsp; ${car.km} &nbsp;•&nbsp; ${car.owners} dueño${car.owners > 1 ? 's' : ''}</p><div class="car-price"><strong>$${car.price.toLocaleString('en-US')}</strong><button type="button" class="car-question" data-question="Cuéntame qué debo considerar al comparar un ${car.name} ${car.year}.">↗</button></div></div></article>`).join('');
+  const visibleCars = filter === 'todos'
+    ? demoCars.slice(0, 3)
+    : demoCars.filter((car) => car.type === filter);
+
+  grid.innerHTML = visibleCars.map((car) => `
+    <article class="car-card">
+      <div class="car-image">
+        <img src="${car.image}" alt="${car.name}" />
+        <span class="tag">DEMO M1</span>
+      </div>
+      <div class="car-details">
+        <h3>${car.name}</h3>
+        <p>${car.year} &nbsp;•&nbsp; ${car.km} &nbsp;•&nbsp; ${car.owners} dueño${car.owners > 1 ? 's' : ''}</p>
+        <div class="car-price">
+          <strong>$${car.price.toLocaleString('en-US')}</strong>
+          <button
+            type="button"
+            class="car-question"
+            data-question="Cuéntame qué debo considerar al comparar un ${car.name} ${car.year}."
+          >↗</button>
+        </div>
+      </div>
+    </article>
+  `).join('');
 }
 
 function setAiOpen(isOpen) {
   stage.classList.toggle('ai-open', isOpen);
   aiScreen.setAttribute('aria-hidden', String(!isOpen));
+
   if (isOpen) {
     window.setTimeout(() => input.focus(), 650);
   }
@@ -38,36 +61,102 @@ function setPending(pending) {
   isRequestPending = pending;
   askButton.disabled = pending;
   input.disabled = pending;
-  document.querySelectorAll('.quick-prompts button').forEach((button) => { button.disabled = pending; });
+
+  document
+    .querySelectorAll('.quick-prompts button')
+    .forEach((button) => {
+      button.disabled = pending;
+    });
 }
 
 async function askM1(question) {
   const message = question.trim();
+
   if (!message || isRequestPending) return;
+
   setPending(true);
   reply.textContent = 'M1 IA está pensando...';
+
   try {
     const response = await fetch(apiUrl('/api/chat'), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ message })
     });
-    if (!response.ok) throw new Error('Chat request failed');
+
     const data = await response.json();
-    if (!data.reply || typeof data.reply !== 'string') throw new Error('Invalid chat response');
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || `Chat request failed (${response.status})`
+      );
+    }
+
+    if (!data.reply || typeof data.reply !== 'string') {
+      throw new Error('Invalid chat response');
+    }
+
     reply.textContent = data.reply;
     input.value = '';
-  } catch {
-    reply.textContent = 'No pude procesar tu pregunta en este momento. Inténtalo nuevamente.';
+
+  } catch (error) {
+    console.error('M1 IA error:', error);
+
+    reply.textContent =
+      error.message ||
+      'No pude procesar tu pregunta en este momento.';
+
   } finally {
     setPending(false);
   }
 }
 
 renderCars();
-document.querySelectorAll('[data-open-ai]').forEach((button) => button.addEventListener('click', () => setAiOpen(true)));
-document.querySelectorAll('[data-close-ai]').forEach((button) => button.addEventListener('click', () => setAiOpen(false)));
-document.querySelectorAll('.budget-tabs button').forEach((button) => button.addEventListener('click', () => { document.querySelector('.budget-tabs .active').classList.remove('active'); button.classList.add('active'); renderCars(button.dataset.budget); }));
-document.querySelectorAll('.quick-prompts button').forEach((button) => button.addEventListener('click', () => askM1(button.textContent)));
-grid.addEventListener('click', (event) => { const button = event.target.closest('.car-question'); if (button) { setAiOpen(true); askM1(button.dataset.question); } });
-form.addEventListener('submit', (event) => { event.preventDefault(); askM1(input.value); });
+
+document
+  .querySelectorAll('[data-open-ai]')
+  .forEach((button) => {
+    button.addEventListener('click', () => setAiOpen(true));
+  });
+
+document
+  .querySelectorAll('[data-close-ai]')
+  .forEach((button) => {
+    button.addEventListener('click', () => setAiOpen(false));
+  });
+
+document
+  .querySelectorAll('.budget-tabs button')
+  .forEach((button) => {
+    button.addEventListener('click', () => {
+      document
+        .querySelector('.budget-tabs .active')
+        .classList.remove('active');
+
+      button.classList.add('active');
+
+      renderCars(button.dataset.budget);
+    });
+  });
+
+document
+  .querySelectorAll('.quick-prompts button')
+  .forEach((button) => {
+    button.addEventListener('click', () => askM1(button.textContent));
+  });
+
+grid.addEventListener('click', (event) => {
+  const button = event.target.closest('.car-question');
+
+  if (button) {
+    setAiOpen(true);
+    askM1(button.dataset.question);
+  }
+});
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  askM1(input.value);
+});
