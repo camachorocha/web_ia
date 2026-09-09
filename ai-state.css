@@ -1,0 +1,15 @@
+/* Estado visual de M1 IA: la portada se oscurece solo mientras el chat está abierto. */
+.hero-panel,
+.hero-index,
+.hero-car-label,
+.speed-line {
+  opacity: 1;
+  transition: opacity .35s ease;
+}
+
+.hero-stage.ai-open .hero-panel,
+.hero-stage.ai-open .hero-index,
+.hero-stage.ai-open .hero-car-label,
+.hero-stage.ai-open .speed-line {
+  opacity: .16;
+}
