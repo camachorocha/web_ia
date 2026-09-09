@@ -126,6 +126,10 @@ async function askM1(question) {
 
 renderCars();
 
+// M1 IA aparece abierta al cargar la portada.
+stage.classList.add('ai-open');
+aiScreen.setAttribute('aria-hidden', 'false');
+
 document.querySelectorAll('[data-open-ai]').forEach((button) => {
   button.addEventListener('click', () => setAiOpen(true));
 });
